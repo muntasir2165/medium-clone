@@ -4,7 +4,7 @@ import { RegisterRequestInterface } from '../types/registerRequest.interface';
 import { map, Observable } from 'rxjs';
 import { CurrentUserInterface } from 'src/app/shared/types/currentUser.interface';
 import { AuthResponseInterface } from '../types/authResponse.interface';
-import { environment } from 'src/environments/environment';
+import { environment } from 'src/environments/environment.development';
 import { LoginRequestInterface } from '../types/loginRequest.interface';
 
 @Injectable({
