@@ -5,12 +5,14 @@ import { combineLatest } from 'rxjs';
 import { selectError, selectFeedData, selectIsLoading } from './store/reducers';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { ErrorMessageComponent } from '../errorMessage/errorMessage.component';
+import { LoadingComponent } from '../loading/loading.component';
 
 @Component({
   selector: 'mc-feed',
   templateUrl: './feed.component.html',
   standalone: true,
-  imports: [CommonModule, RouterLink]
+  imports: [CommonModule, RouterLink, ErrorMessageComponent, LoadingComponent],
 })
 export class FeedComponent implements OnInit {
   @Input() apiUrl: string = '';
@@ -18,8 +20,8 @@ export class FeedComponent implements OnInit {
   data$ = combineLatest({
     isLoading: this.store.select(selectIsLoading),
     error: this.store.select(selectError),
-    feed: this.store.select(selectFeedData)
-  })
+    feed: this.store.select(selectFeedData),
+  });
 
   constructor(private store: Store) {}
 
