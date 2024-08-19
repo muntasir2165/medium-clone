@@ -8,12 +8,19 @@ import { ActivatedRoute, Params, Router, RouterLink } from '@angular/router';
 import { ErrorMessageComponent } from '../errorMessage/errorMessage.component';
 import { LoadingComponent } from '../loading/loading.component';
 import { environment } from 'src/environments/environment.development';
+import { PaginationComponent } from '../pagination/pagination.component';
 
 @Component({
   selector: 'mc-feed',
   templateUrl: './feed.component.html',
   standalone: true,
-  imports: [CommonModule, RouterLink, ErrorMessageComponent, LoadingComponent],
+  imports: [
+    CommonModule,
+    RouterLink,
+    ErrorMessageComponent,
+    LoadingComponent,
+    PaginationComponent,
+  ],
 })
 export class FeedComponent implements OnInit {
   @Input() apiUrl: string = '';
@@ -34,11 +41,15 @@ export class FeedComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.store.dispatch(feedActions.getFeed({ url: this.apiUrl }));
-
     this.route.queryParams.subscribe((params: Params) => {
       // {page: '1'}
+      console.log('params', params);
       this.currentPage = Number(params['page'] || '1');
+      this.fetchFeed();
     });
+  }
+
+  fetchFeed(): void {
+    this.store.dispatch(feedActions.getFeed({ url: this.apiUrl }));
   }
 }
