@@ -4,9 +4,10 @@ import { feedActions } from './store/actions';
 import { combineLatest } from 'rxjs';
 import { selectError, selectFeedData, selectIsLoading } from './store/reducers';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, Params, Router, RouterLink } from '@angular/router';
 import { ErrorMessageComponent } from '../errorMessage/errorMessage.component';
 import { LoadingComponent } from '../loading/loading.component';
+import { environment } from 'src/environments/environment.development';
 
 @Component({
   selector: 'mc-feed',
@@ -22,10 +23,22 @@ export class FeedComponent implements OnInit {
     error: this.store.select(selectError),
     feed: this.store.select(selectFeedData),
   });
+  limit = environment.limit;
+  baseUrl = this.router.url.split('?')[0];
+  currentPage: number = 0;
 
-  constructor(private store: Store) {}
+  constructor(
+    private store: Store,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.store.dispatch(feedActions.getFeed({ url: this.apiUrl }));
+
+    this.route.queryParams.subscribe((params: Params) => {
+      // {page: '1'}
+      this.currentPage = Number(params['page'] || '1');
+    });
   }
 }
