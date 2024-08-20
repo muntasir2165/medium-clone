@@ -10,6 +10,7 @@ import { LoadingComponent } from '../loading/loading.component';
 import { environment } from 'src/environments/environment.development';
 import { PaginationComponent } from '../pagination/pagination.component';
 import queryString from 'query-string';
+import { TagListComponent } from '../tagList/tagList.component';
 
 @Component({
   selector: 'mc-feed',
@@ -20,7 +21,7 @@ import queryString from 'query-string';
     RouterLink,
     ErrorMessageComponent,
     LoadingComponent,
-    PaginationComponent,
+    PaginationComponent, TagListComponent
   ],
 })
 export class FeedComponent implements OnInit {
@@ -44,7 +45,6 @@ export class FeedComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params: Params) => {
       // {page: '1'}
-      console.log('params', params);
       this.currentPage = Number(params['page'] || '1');
       this.fetchFeed();
     });
