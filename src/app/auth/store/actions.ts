@@ -29,6 +29,8 @@ export const authActions = createActionGroup({
     'Update current user failure': props<{
       errors: BackendErrorsInterface;
     }>(),
+
+    Logout: emptyProps(),
   },
 });
 

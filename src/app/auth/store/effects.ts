@@ -7,6 +7,7 @@ import { authActions } from './actions';
 import { HttpErrorResponse } from '@angular/common/http';
 import { PersistanceService } from 'src/app/shared/services/persistance.service';
 import { Router } from '@angular/router';
+import { Action } from 'rxjs/internal/scheduler/Action';
 
 export const getCurrentUserEffect = createEffect(
   (
@@ -136,4 +137,21 @@ export const updateCurrentUserEffect = createEffect(
     );
   },
   { functional: true }
+);
+
+export const logoutEffect = createEffect(
+  (
+    actions$ = inject(Actions),
+    router = inject(Router),
+    persistanceService = inject(PersistanceService)
+  ) => {
+    return actions$.pipe(
+      ofType(authActions.logout),
+      tap(() => {
+        persistanceService.set('accessToken', '');
+        router.navigateByUrl('/');
+      })
+    );
+  },
+  { functional: true, dispatch: false }
 );
